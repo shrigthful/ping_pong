@@ -1,0 +1,60 @@
+#game
+{
+    position: relative;
+}
+#ball
+{
+    position: absolute;
+    /* top : 50%; */
+    left: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50% 50% 50% 50%;
+    background-color: rgb(180, 177, 176);
+    z-index: 1;
+}
+#board{
+
+    left: 0;
+    width: 700px;
+    height: 350px;
+
+    outline: solid;
+    outline-color: red;
+    border-width: 10;
+    z-index: -1;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: marginTop;
+}
+
+.player{
+    width: 5px;
+    height: 18%;
+    
+}
+
+
+#playerLeft{
+    margin-left: 3%;
+    /* outline: 5px solid blue; */
+    background-clip: content-box;
+    box-shadow: -5px 0px 0px blue;
+}
+
+#midline{
+    width: 4px;
+    height: 100%;
+    background-color: red;
+    z-index: -1;
+}
+
+#playerRigth {
+    /* margin-marginTop:  ; */
+    margin-right: 3%;
+    box-shadow: 5px 0px 0px rgb(19, 151, 37);
+    /* background-color: rgb(19, 151, 37); */
+    background-clip: content-box;
+}
