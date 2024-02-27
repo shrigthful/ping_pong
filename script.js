@@ -28,14 +28,7 @@ ball_ele.style.top = startTop.toString() + 'px';
 const startLeft = parseInt(board.clientWidth) / 2 - ball_ele.clientWidth / 2;
 ball_ele.style.left = startLeft.toString() + 'px';
 
-function adjustAngele(ang , add)
-{
-    ang += add
-    if (ang < 0)
-        ang += 2 * Math.PI;
-    else if (ang > 2 * Math.PI)
-        ang -= 2 * Math.PI;
-};
+
 var ball = {
     'dom'   : ball_ele,
     'x'     : startLeft,
@@ -72,12 +65,13 @@ var keys =
     'p' : false,
     'l' : false
 };
-ball.vx = Math.cos(ball.angle) * 5;
-ball.vy = Math.sin(ball.angle) * 5;
+ball.vx = 7;
+ball.vy = 3;
 
 function isInRange(number, min, max) {
     return number >= min && number <= max;
 }
+
 
 function get_impacte_on_x(vx, newx){
     if (Math.abs(p1.x - newx) < Math.abs(vx))
@@ -98,57 +92,72 @@ function get_impacte_on_y(vy, newy){
         newy = 0;
     return newy;
 }
-// pre16.954915028125264
-//21
-//px: 21  newx:21.786404500040113 vx: -4.045084971874737 p1.x :21
-//px: 21  newx:16.954915028125264 vx: -4.045084971874737 p1.x :21
-function redirect_player(){
+
+function adjustAngele(ang , add)
+{
+    ang += add
+    if (ang < 0)
+        ang += 2 * Math.PI;
+    else if (ang > 2 * Math.PI)
+        ang -= 2 * Math.PI;
+    return ang;
+};
+function redirect_player()
+{
     if (ball.x == p1.x && isInRange(ball.y, p1.y + 10, p1.y + pad_size)){
-        ball.vx *= -1; 
+        
         if(keys.w == true)
         {
             if (ball.vy < 0)
-                ball.angle += Math.PI / 3;
+            {
+
+            }
             else
-                ball.angle -= Math.PI / 3;
+            {
+
+            }
         }
         else if(keys.s == true)
         {
             if (ball.vy > 0)
-                ball.angle += Math.PI / 3;
-            else
-                ball.angle -= Math.PI / 3;
-        }
+            {
 
-        ball.vx = Math.cos(ball.angle) * 5;
-        ball.vy = Math.sin(ball.angle) * 5;
-        console.log(ball.vx);
-        console.log(ball.vy);
+            }
+            {
+
+            }
+        }
+        console.log(ball.angle);
+        // ball.vx = Math.cos(ball.angle) * 5;
+        // ball.vy = Math.sin(ball.angle) * 5;
+        ball.vx *= -1;
+
         return true;
     }
     
     else if (ball.x ==p2.x && isInRange(ball.y, p2.y + 1, p2.y + pad_size)){
         ball.vx *= -1; 
-        if(keys.p == true)
-        {
-            if (ball.vy < 0)
-                ball.angle += Math.PI / 3;
-            else
-                ball.angle -= Math.PI / 3;
-        }
-        else if(keys.l == true)
-        {
-            if (ball.vy > 0)
-                ball.angle += Math.PI / 3;
-            else
-                ball.angle -= Math.PI / 3;
-        }
+        // if(keys.p == true)
+        // {
+        //     if (ball.vy < 0)
+        //         ball.angle += Math.PI / 3;
+        //     else
+        //         ball.angle -= Math.PI / 3;
+        // }
+        // else if(keys.l == true)
+        // {
+        //     if (ball.vy > 0)
+        //         ball.angle += Math.PI / 3;
+        //     else
+        //         ball.angle -= Math.PI / 3;
+        // }
 
-        ball.vx -= Math.cos(ball.angle) * 5;
-        ball.vy = Math.sin(ball.angle) * 5;
+        // ball.vx -= Math.cos(ball.angle) * 5;
+        // ball.vy = Math.sin(ball.angle) * 5;
 
         return true;
     }
+    return false;
 }
 
 function redirect_x(){
@@ -180,14 +189,14 @@ function redirect_y(){
 //ball rander
 var bounce = setInterval(function(){
     var isimpact = false;
-    // if (redirect_player() == true)
-    // {
-    //     isimpact = true;
-    //     ball.x += ball.vx;
-    //     ball.y += ball.vy;
-    // }
-    // else
-    // {
+    if (redirect_player() == true)
+    {
+        isimpact = true;
+        ball.x += ball.vx;
+        ball.y += ball.vy;
+    }
+    else
+    {
         if (redirect_y() == true)
         {
             isimpact = true;
@@ -198,7 +207,7 @@ var bounce = setInterval(function(){
             isimpact = true;
             ball.x += ball.vx;
         }
-    // }
+    }
 //check if x and y == hit spot
 //yes reverse the angle  and put it on the next position
 //no{
@@ -214,10 +223,7 @@ var bounce = setInterval(function(){
         ball.y += ball.vy;
         ball.y = get_impacte_on_y(ball.vy, ball.y);
     }
-    // console.log(ball.vx);
-    // console.log(ball.vy);
-    // console.log(ball.x);
-    // console.log(ball.y);
+
     ball.dom.style.left = ball.x.toString() + 'px';
     ball.dom.style.top = ball.y.toString() + 'px';
 
