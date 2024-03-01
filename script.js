@@ -35,7 +35,7 @@ var ball = {
     'y'     : startTop,
     'vx'    : 0,
     'vy'    : 0,
-    'angle' : (Math.PI/5)
+    'extra_power' : false
 };
 
 let css_obj1 = getComputedStyle(playerView1);
@@ -65,8 +65,8 @@ var keys =
     'p' : false,
     'l' : false
 };
-ball.vx = 7;
-ball.vy = 3;
+ball.vx = 10;
+ball.vy = 0;
 
 function isInRange(number, min, max) {
     return number >= min && number <= max;
@@ -93,69 +93,81 @@ function get_impacte_on_y(vy, newy){
     return newy;
 }
 
-function adjustAngele(ang , add)
+function adjust_move()
 {
-    ang += add
-    if (ang < 0)
-        ang += 2 * Math.PI;
-    else if (ang > 2 * Math.PI)
-        ang -= 2 * Math.PI;
-    return ang;
-};
+    var sx = 1;
+    if (ball.vx < 0)
+        sx = -1;
+    var sy = 1;
+    if (ball.vy < 0)
+        sy = -1;
+
+    if (Math.abs(ball.vy) > 7)
+    {
+        console.log(sy);
+        console.log(sx);
+        ball.vy = 7 * sy;
+        ball.vx = 8 * sx;
+    }
+    if (Math.abs(ball.vx) > 14)
+    {
+        console.log(sy);
+        console.log(sx);
+        ball.vy = 3 * sy;
+        ball.vx = 13 * sx;
+    }
+
+}
+
 function redirect_player()
 {
-    if (ball.x == p1.x && isInRange(ball.y, p1.y + 10, p1.y + pad_size)){
+    var sx = 1;
+    if (ball.vx < 0)
+        sx = -1;
+    var sy = 1;
+    if (ball.vy < 0)
+        sy = -1;
+    if (ball.x == p1.x && isInRange(ball.y, p1.y - 10 , p1.y + pad_size)){
         
         if(keys.w == true)
         {
-            if (ball.vy < 0)
-            {
-
-            }
-            else
-            {
-
-            }
+            ball.vx = (Math.abs(ball.vx) + 3) * sx;
+            ball.vy = (Math.abs(ball.vy) - 3) * sy;
+            adjust_move();
         }
         else if(keys.s == true)
         {
-            if (ball.vy > 0)
-            {
 
-            }
-            {
-
-            }
+            ball.vx = (Math.abs(ball.vx) - 3) * sx;
+            ball.vy = (Math.abs(ball.vy) + 3) * sy;
+            adjust_move();
         }
-        console.log(ball.angle);
-        // ball.vx = Math.cos(ball.angle) * 5;
-        // ball.vy = Math.sin(ball.angle) * 5;
-        ball.vx *= -1;
+        console.log("corection");
 
+        ball.vx *= -1;
         return true;
     }
     
-    else if (ball.x ==p2.x && isInRange(ball.y, p2.y + 1, p2.y + pad_size)){
-        ball.vx *= -1; 
-        // if(keys.p == true)
-        // {
-        //     if (ball.vy < 0)
-        //         ball.angle += Math.PI / 3;
-        //     else
-        //         ball.angle -= Math.PI / 3;
-        // }
-        // else if(keys.l == true)
-        // {
-        //     if (ball.vy > 0)
-        //         ball.angle += Math.PI / 3;
-        //     else
-        //         ball.angle -= Math.PI / 3;
-        // }
+    else if (ball.x ==p2.x && isInRange(ball.y, p2.y - 10, p2.y + pad_size)){
+        if (ball.x == p2.x && isInRange(ball.y, p2.y - 10 , p2.y + pad_size)){
+            if(keys.p == true)
+            {
+                ball.vx = (Math.abs(ball.vx) + 3) * sx;
+                ball.vy = (Math.abs(ball.vy) - 3) * sy;
+                adjust_move();
+            }
+            else if(keys.l == true)
+            {
+                ball.vx = (Math.abs(ball.vx) - 3) * sx;
+                ball.vy = (Math.abs(ball.vy) + 3) * sy;
+                adjust_move();
+            }
+            console.log("corection");
 
-        // ball.vx -= Math.cos(ball.angle) * 5;
-        // ball.vy = Math.sin(ball.angle) * 5;
-
-        return true;
+    
+            ball.vx *= -1;
+            return true;
+        }
     }
     return false;
 }
@@ -189,6 +201,7 @@ function redirect_y(){
 //ball rander
 var bounce = setInterval(function(){
     var isimpact = false;
+
     if (redirect_player() == true)
     {
         isimpact = true;
@@ -208,13 +221,6 @@ var bounce = setInterval(function(){
             ball.x += ball.vx;
         }
     }
-//check if x and y == hit spot
-//yes reverse the angle  and put it on the next position
-//no{
-//vx++
-//vy++
-//posibliti adjust to for hitspot}
-   
 
     if (isimpact == false)
     {
@@ -230,6 +236,7 @@ var bounce = setInterval(function(){
 }, 20);
 
 //keybord
+const mdist = 7;
 var myInterval = setInterval(function() {
     //windew size
     winH = window.innerHeight;
@@ -246,33 +253,32 @@ var myInterval = setInterval(function() {
     //key exec
     if (keys.w === true)
     {
-        p1.y = parseInt( p1.dom.style.marginTop) - 5;
+        p1.y = parseInt( p1.dom.style.marginTop) - mdist;
         if (p1.y < ymin)
             p1.y = 0;
-        p1.dom.style.marginTop = p1.y.toString() + 'px';
+
     }
     else if (keys.s === true)
     {
-        p1.y = parseInt(p1.dom.style.marginTop) + 5;
+        p1.y = parseInt(p1.dom.style.marginTop) + mdist;
         if (p1.y > ymax)
             p1.y = ymax;
-        p1.dom.style.marginTop = p1.y.toString() + 'px';
     }
 
     if (keys.p === true)
     {
-        p2.y = parseInt(p2.dom.style.marginTop) - 5;
+        p2.y = parseInt(p2.dom.style.marginTop) - mdist;
         if (p2.y < ymin)
             p2.y = 0;
-            p2.dom.style.marginTop = p2.y.toString() + 'px';
     }
     else if(keys.l === true)
     {
-        p2.y = parseInt(p2.dom.style.marginTop) + 5;
+        p2.y = parseInt(p2.dom.style.marginTop) + mdist;
         if (p2.y > ymax)
             p2.y = ymax;
-        p2.dom.style.marginTop = p2.y.toString() + 'px';
     }
+    p1.dom.style.marginTop = p1.y.toString() + 'px';
+    p2.dom.style.marginTop = p2.y.toString() + 'px';
 
 }, 30);
 
