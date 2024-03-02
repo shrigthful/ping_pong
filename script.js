@@ -45,7 +45,7 @@ var p1 = {
     'x'     : p1x,
     'y'     : 0
 };
-p1.y = parseInt( p1.dom.style.marginTop);
+p1.y = parseInt(p1.dom.style.marginTop);
 
 let css_obj2 = getComputedStyle(playerView2);
 var p2x = parseInt(css_obj2.getPropertyValue('margin-right'));
