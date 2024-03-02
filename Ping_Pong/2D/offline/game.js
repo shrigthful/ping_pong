@@ -22,6 +22,8 @@ class game
                     Ball.clientHeight,
                     Board.clientHeight
                 );
+        
+        this.MovmentInterval = NULL;
     };
 
     playerMove()
@@ -41,10 +43,13 @@ class game
     {
         document.addEventListener('keydown', keys.keyDownListner);
         document.addEventListener('keyup', keys.keyUpListner);    
+        this.MovmentInterval = setInterval(this.playerMove, 60);
     };
     endRound()
     {
-
+        document.removeEventListener('keydown');
+        document.removeEventListener('keyup');
+        clearInterval(this.MovmentInterval);
     };
 }
 
