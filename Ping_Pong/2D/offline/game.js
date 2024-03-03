@@ -1,4 +1,5 @@
 import { Player } from 'Player.js';
+import { Ball }   from 'Ball.js';
 
 class game
 {
@@ -6,7 +7,16 @@ class game
     {
         this.keys   = Keys;
         this.Board  = Board;
-        this.ball   = Ball
+        this.ball   = new Ball(
+                        ball, 
+                        gameContants.ballStartingPositionX,
+                        gameContants.ballStartingPositionY,
+                        gameContants.ballStartVx,
+                        gameContants.ballStartVy,
+                        gameContants.BallmaxSpeedX,
+                        gameContants.BallmaxSpeedY,
+                        board.clientHeight
+                    );
 
         this.p1 = new Player(
                     p1,
@@ -75,7 +85,12 @@ var gameContants = {
     'PlayerImpactOnStop'  : 0,
 
     'BallmaxSpeedX' : 13,
-    'BallmaxSpeedY' : 6
+    'BallmaxSpeedY' : 6,
+    'BallStartVx'   : 10,
+    'ballStartVy'   : 0,
+
+    'BorderXL'      : 0,
+    'BorderXR'      : board.clientWidth,
 };
 var keys    = {
     'w' : false,

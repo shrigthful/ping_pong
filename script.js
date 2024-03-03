@@ -236,8 +236,8 @@ var bounce = setInterval(function(){
 }, 20);
 
 //keybord
-const mdist = 7;
 var myInterval = setInterval(function() {
+    const mdist = 10;
     //windew size
     winH = window.innerHeight;
     winW = window.innerWidth;
