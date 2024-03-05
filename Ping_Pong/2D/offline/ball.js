@@ -14,6 +14,7 @@ export class Ball
 
         this.vxMax = vxMax;
         this.vyMax = vyMax;
+        this.speed = parseInt(Math.sqrt(Math.pow(vxMax, 2), Math.pow(vyMax, 2)));
 
         this.p1x    = P1x;
         this.p2x    = P2x;
@@ -57,6 +58,33 @@ export class Ball
 
     getDirection() {
         return {'vx' : this.vx , 'vy' : this.vy};
+    }
+
+    setDirection(newDir) {
+        this.vx = newDir.vx;
+        this.vy = newDir.vy
+        
+        var sx = (ball.vx < 0) ? -1 : 1;
+        var sy = (ball.vy < 0) ? -1 : 1;
+
+        this.vx = sx * ((Math.abs(this.vx) > this.vxMax) ? this.vxMax : this.vx);     
+        this.vy = sy * ((Math.abs(this.vy) > this.vyMax) ? this.vyMax : this.vy);
+    }
+
+    move(limitX){
+        this.x += this.vx;
+        this.y += this.vy;
+        //prevent ball from crosing x
+        this.x = (this.x > this.wall2) ? this.wall2 : this.x;
+        this.x = (this.x < this.wall1) ? this.wall1 : this.x;
+        //prevent ball from crosing y
+        this.y = (this.y > this.boardH) ? this.boardH : this.y;
+        this.y = (this.y < 0) ? 0 : this.y;
+
+        if (this.vx > 0 && this.x >limitX)
+            this.x = limitX;
+        if (this.vx < 0 && this.x < limitX)
+            this.x = limitX;
     }
 
 };

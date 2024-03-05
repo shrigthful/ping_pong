@@ -13,8 +13,8 @@
     background-color: rgb(180, 177, 176);
     z-index: 1;
 }
-#board{
 
+#board{
     left: 0;
     width: 700px;
     height: 350px;
@@ -31,11 +31,9 @@
 }
 
 .player{
-    width: 5px;
+    width : 5px;
     height: 18%;
-    
 }
-
 
 #playerLeft{
     margin-left: 3%;
