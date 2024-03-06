@@ -65,7 +65,6 @@ class Game
     {
         this.p1.reset();
         this.p2.reset();
-        this.ball.reset({'x' : 10, 'y' : 0});
         document.addEventListener('keydown', keys.keyDownListner);
         document.addEventListener('keyup', keys.keyUpListner);    
         this.MovmentInterval = setInterval(this.playerMove, 60);
@@ -80,42 +79,65 @@ class Game
         clearInterval(this.MovmentInterval);
     };
 
-    async moveBall(x)
+    moveBall(x)
     {
-        while (this.ball.x != x)
-            await setTimeout(() => {
-                    this.ball.move(x);
-                    this.ball.display();
-                }, 60);
+        const interval = setInterval(() => {
+                this.ball.move(x);
+                this.ball.display();
+                if (this.ball.x == x)
+                    clearInterval(interval);
+        }, 60);
     }
 
-    play(){
+    iteration()
+    {
         var x = this.ball.nextReboundPointX();
         this.ball.moveBall();
         
-        if (this.p1.hitsBall(this.x, this.y))
-        {
+        if (this.p1.hitsBall(this.x, this.y)){
             let newDir = this.p1.getPlayerAffectOnBall(this.ball);
             this.ball.setDirection(newDir);
         }
-        else if (this.p1.hitsBall(this.x, this.y))
-        {
+        else if (this.p1.hitsBall(this.x, this.y)){
             let newDir = this.p2.getPlayerAffectOnBall(this.ball);
             this.ball.setDirection(newDir);
         }
-        else if (x == this.wall1)
-        {
-            return 1;
-            //braks
-        }
-        else if (x == this.wall2)
-        {
-            return 2;
-            //braks
-        }
-        else
-            this.ball.vy *= -1;
+        else if (x == this.wall1)   {return 1; }
+        else if (x == this.wall2)   {return 2; }
+        else    this.ball.vy *= -1;
         
         return 0;
+    }
+
+    makeWiner(p, signe){
+        p.markGoal();
+        if   (p.goals == 5)
+            return 1;
+        this.startRound();
+        this.ball.reset({'x' : signe * 10, 'y' : 0});
+        return 0;
+    }
+
+    play(){
+        this.startRound();
+        while (true) {
+            switch (this.iteration()) {
+                case 1 :
+                    this.endRound();
+                    if (this.makeWiner(p1, -1) != 0)
+                        return 1;
+                    this.startRound();
+                    break;
+    
+                case 2 :
+                    this.endRound();
+                    if (this.makeWiner(p2, 1) != 0)
+                        return 2;
+                    this.startRound();
+                    break;
+                
+                default : break;
+            }
+        }
     }
 }
