@@ -1,6 +1,8 @@
 #game
 {
     position: relative;
+    width: 700px;
+    height: 350px;
 }
 #ball
 {
@@ -14,10 +16,31 @@
     z-index: 1;
 }
 
+#counterHoler
+{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#counter
+{
+    width: 100%;
+    margin: 0; 
+    padding: 0; 
+    text-align: center;
+    font-size: 100px;
+    font-family: Sans-serif;
+    z-index: 2;
+}
+
 #board{
     left: 0;
-    width: 700px;
-    height: 350px;
+    width: 100%;
+    height: 100%;
 
     outline: solid;
     outline-color: red;
@@ -36,6 +59,7 @@
 }
 
 #playerLeft{
+    margin-top:  1px;
     margin-left: 3%;
     /* outline: 5px solid blue; */
     background-clip: content-box;
@@ -50,7 +74,7 @@
 }
 
 #playerRigth {
-    /* margin-marginTop:  ; */
+    margin-top:  1px;
     margin-right: 3%;
     box-shadow: 5px 0px 0px rgb(19, 151, 37);
     /* background-color: rgb(19, 151, 37); */

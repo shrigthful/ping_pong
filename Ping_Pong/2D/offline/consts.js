@@ -3,31 +3,36 @@ var ball    = document.getElementById('ball');
 var p1      = document.getElementById('playerLeft');
 var p2      = document.getElementById('playerRigth');
 
-var gameContants = {
-    'p1StartingPositionX' :  p1.style.marginLeft,
-    'p1StartingPositionY' :  (board.clientHeight / 2) - (p1.clientHeight / 2),
+export var gameContants = {
+    'p1StartingPositionX' :  parseInt(getComputedStyle(p1).getPropertyValue('margin-left')),
+    'p1StartingPositionY' :  parseInt((board.clientHeight / 2) - (p1.clientHeight / 2)),
 
-    'p2StartingPositionX' :  Board.clientWidth 
-                                - p2.style.marginRight 
-                                - Ball.clientWidth,
-    'p2StartingPositionY' :  (board.clientHeight / 2) - (p1.clientHeight / 2),
+    'p2StartingPositionX' : parseInt(Board.clientWidth  
+                            - parseInt(getComputedStyle(p2).getPropertyValue('margin-right')) 
+                            - ball.clientWidth),
+    'p2StartingPositionY' :  parseInt((board.clientHeight / 2) - (p1.clientHeight / 2)),
 
-    'ballStartingPositionX' : (board.clientWidth / 2) - (ball.clientWidth / 2),
-    'ballStartingPositionY' : (board.clientHeight / 2) - (ball.clientHeight / 2),
+    'PlayeSpeed'    : 10,
+
+    'ballStartingPositionX' : parseInt((board.clientWidth / 2) - (ball.clientWidth / 2)),
+    'ballStartingPositionY' : parseInt((board.clientHeight / 2) - (ball.clientHeight / 2)),
 
     'PlayerSpeed'         : 7,
     'PlayerImpactOnMove'  : 3,
     'PlayerImpactOnStop'  : 0,
 
-    'BallmaxSpeedX' : 13,
+    'BallmaxSpeedX' : 7,
     'BallmaxSpeedY' : 6,
-    'BallStartVx'   : 10,
+    'BallStartVx'   : 5,
     'ballStartVy'   : 0,
 
     'BorderXL'      : 0,
-    'BorderXR'      : board.clientWidth,
+    'BorderXR'      : parseInt(board.clientWidth),
+
+    'BallMoveDelay'   : 30,
+    'PlayerMoveDelay' : 20
 };
-var keys    = {
+export var keys    = {
     'w' : false,
     's' : false,
 

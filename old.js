@@ -104,15 +104,11 @@ function adjust_move()
 
     if (Math.abs(ball.vy) > 7)
     {
-        console.log(sy);
-        console.log(sx);
         ball.vy = 7 * sy;
         ball.vx = 8 * sx;
     }
     if (Math.abs(ball.vx) > 14)
     {
-        console.log(sy);
-        console.log(sx);
         ball.vy = 3 * sy;
         ball.vx = 13 * sx;
     }
@@ -162,9 +158,6 @@ function redirect_player()
                 ball.vy = (Math.abs(ball.vy) + 3) * sy;
                 adjust_move();
             }
-            console.log("corection");
-
-    
             ball.vx *= -1;
             return true;
         }

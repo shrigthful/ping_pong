@@ -35,17 +35,16 @@ export class Ball
     nextReboundPointX() {
         let maxXvalBeforeYlimit = ( () => {
             let ydist = (this.vy > 0) ? this.boardH - this.y : this.y;
-            console.log(parseInt(this.vx *  Math.abs(ydist / this.vy)));
             return (this.vx *  Math.abs(ydist / this.vy));
         }) ();
-
+        if (Math.abs(maxXvalBeforeYlimit) == Infinity)
+            maxXvalBeforeYlimit = -100;
         var allPosibleImpactPoints = [maxXvalBeforeYlimit, this.wall1, this.p1x ,this.p2x, this.wall2];
-            
-        var ft_filter = (maxXvalBeforeYlimit >= 0) ?
-                        (ele, val) => ele >= val :
-                        (ele, val) => ele <= val;
+        var ft_filter = (this.vx >= 0) ?
+                        (ele, val) => ele > val :
+                        (ele, val) => ele < val;
 
-        var ft_select = (maxXvalBeforeYlimit >= 0) ?
+        var ft_select = (this.vx >= 0) ?
                         (arr) => Math.min(...arr) :
                         (arr) => Math.max(...arr);
                         
@@ -60,18 +59,29 @@ export class Ball
         return {'vx' : this.vx , 'vy' : this.vy};
     }
 
-    setDirection(newDir) {
-        this.vx = newDir.vx;
-        this.vy = newDir.vy
-        
-        var sx = (ball.vx < 0) ? -1 : 1;
-        var sy = (ball.vy < 0) ? -1 : 1;
-
-        this.vx = sx * ((Math.abs(this.vx) > this.vxMax) ? this.vxMax : this.vx);     
-        this.vy = sy * ((Math.abs(this.vy) > this.vyMax) ? this.vyMax : this.vy);
+    ballOnRoof(){
+        return this.y == 0 || this.y == boardH;
     }
 
-    move(limitX){
+    setDirection(newDir) {
+        this.vx = newDir.vx;
+        this.vy = newDir.vy;
+
+        var sx = (this.vx < 0) ? -1 : 1;
+        var sy = (this.vy < 0) ? -1 : 1;
+
+        this.vx = (Math.abs(this.vx) > this.vxMax) ? (sx * this.vxMax) : this.vx;     
+        this.vy = (Math.abs(this.vy) > this.vyMax) ? (sy * this.vyMax) : this.vy;
+    }
+
+    display()
+    {
+        this.dom.style.left = this.x.toString() + 'px';
+        this.dom.style.top  = this.y.toString() + 'px';
+    }
+
+    move(limitX)
+    {
         this.x += this.vx;
         this.y += this.vy;
         //prevent ball from crosing x
@@ -85,6 +95,6 @@ export class Ball
             this.x = limitX;
         if (this.vx < 0 && this.x < limitX)
             this.x = limitX;
+        this.display();
     }
-
 };

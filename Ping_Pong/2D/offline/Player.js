@@ -1,6 +1,6 @@
-class Player
+export class Player
 {
-    constructor(htmlEle, x, y , ballHigth, BoardHeigth , maxVy)
+    constructor(htmlEle, x, y , ballHigth, BoardHeigth , maxvy)
     {
         this.dom    = htmlEle;
         this.goals  = 0;
@@ -8,7 +8,7 @@ class Player
         this.y      = y;
         this.startP = {'x' : x, 'y' : y};
         this.hitBox = {
-            'min'   : y - ballHigth,
+            'min'   : 0,
             'max'  : htmlEle.clientHeight
         };
 
@@ -42,6 +42,7 @@ class Player
     hitsBall(x, y) {
         if (this.x != x)
             return false;
+        y -= this.y;
         return y >= this.hitBox.min && y <= this.hitBox.max;
     }
 
@@ -56,17 +57,20 @@ class Player
 
     getPlayerAffectOnBall(ball)
     {
-        let relativeY = this.hitBox.min - ball.y;
-        let hitPoint = parseInt(relativeY / (this.hitBox.max - this.hitBox.min));
+        let relativeY = ball.y - this.y;
+        let hitPoint = parseInt(relativeY / this.hitBox.max);
+
         let range = (()=> {
-                for(key of this.parts.keys()) {
+                for(let key of this.parts.keys()) {
                     if (key >= hitPoint)
                         return this.parts.get(key);
                 }
         })();
 
-        let newVy = ball.vy / range; 
-        let newVx = ball.vx * -1;
+        let newVy = ball.vy + ball.vy / range; 
+        let newVx =  ball.vx * -1;
+        if (ball.vy == 0)
+            newVy = 2;
         return {'vx' : newVx, 'vy' : newVy};
     }
 };
