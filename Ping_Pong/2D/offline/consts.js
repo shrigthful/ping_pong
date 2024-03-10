@@ -4,34 +4,46 @@ var p1      = document.getElementById('playerLeft');
 var p2      = document.getElementById('playerRigth');
 
 export var gameContants = {
-    'p1StartingPositionX' :  parseInt(getComputedStyle(p1).getPropertyValue('margin-left')),
-    'p1StartingPositionY' :  parseInt((board.clientHeight / 2) - (p1.clientHeight / 2)),
+    //player conf
+    'p1StartingPositionX'   :  parseInt(getComputedStyle(p1).getPropertyValue('margin-left')),
+    'p1StartingPositionY'   :  parseInt((board.clientHeight / 2) - (p1.clientHeight / 2)),
+    'p2StartingPositionX'   : parseInt(Board.clientWidth  
+                                - parseInt(getComputedStyle(p2).getPropertyValue('margin-right')) 
+                                - ball.clientWidth),
+    'p2StartingPositionY'   :  parseInt((board.clientHeight / 2) - (p1.clientHeight / 2)),
+    'playeSpeed'            : 10,
+    'playerMoveDelay'       : 20,
+    'pMinPos'               : 0,
+    'pMaxPos'               : parseInt(board.clientHeight - p1.clientHeight),
+    'pSize'                 : p1.clientHeight,
+    'playerSpeed'           : 7,
+    'playerImpactOnMove'    : 3,
+    'playerImpactOnStop'    : 0,
 
-    'p2StartingPositionX' : parseInt(Board.clientWidth  
-                            - parseInt(getComputedStyle(p2).getPropertyValue('margin-right')) 
-                            - ball.clientWidth),
-    'p2StartingPositionY' :  parseInt((board.clientHeight / 2) - (p1.clientHeight / 2)),
-
-    'PlayeSpeed'    : 10,
-
+    //ballCOnf
     'ballStartingPositionX' : parseInt((board.clientWidth / 2) - (ball.clientWidth / 2)),
     'ballStartingPositionY' : parseInt((board.clientHeight / 2) - (ball.clientHeight / 2)),
+    'bMaxVx'                : 13,
+    'bMaxVy'                : 6,
+    'ballStartVx'           : -10,
+    'ballStartVy'           : 0,
+    'ballSize'              : parseInt(ball.clientHeight),
+    'ballSpeed'             : parseInt(Math.sqrt(Math.pow(13, 2), Math.pow(6, 2))),
+    'ballMoveDelay'         : 30,
+    'bMinX'                 : 0,
+    'bMaxX'                 : parseInt(board.clientWidth - ball.clientHeight),
+    'bMinY'                 : 0,
+    'bMaxY'                 : parseInt(board.clientHeight - ball.clientHeight),
 
-    'PlayerSpeed'         : 7,
-    'PlayerImpactOnMove'  : 3,
-    'PlayerImpactOnStop'  : 0,
-
-    'BallmaxSpeedX' : 7,
-    'BallmaxSpeedY' : 6,
-    'BallStartVx'   : 5,
-    'ballStartVy'   : 0,
-
-    'BorderXL'      : 0,
-    'BorderXR'      : parseInt(board.clientWidth),
-
-    'BallMoveDelay'   : 30,
-    'PlayerMoveDelay' : 20
+    //board
+    'Wall1'                 : 0,
+    'wall2'                 : parseInt(board.clientWidth),
+    'BoardW'                : parseInt(board.clientWidth),
+    'floor'                 : parseInt(board.clientHeight),
+    'BoardH'                : parseInt(board.clientHeight),
+    'roof'                  : 0
 };
+
 export var keys    = {
     'w' : false,
     's' : false,

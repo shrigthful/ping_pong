@@ -1,38 +1,37 @@
 export class Player
 {
-    constructor(htmlEle, x, y , ballHigth, BoardHeigth , maxvy)
+    constructor(htmlEle, x, y, c)
     {
         this.dom    = htmlEle;
-        this.goals  = 0;
         this.x      = x;
         this.y      = y;
-        this.startP = {'x' : x, 'y' : y};
+        this.c      = c;
         this.hitBox = {
             'min'   : 0,
-            'max'  : htmlEle.clientHeight
+            'max'   : c.pSize
         };
-
-        this.lowestPosition     = 0;
-        this.higthestPosition   = BoardHeigth - htmlEle.clientHeight; 
-        this.parts = new Map()
-        this.parts.set(0,  maxvy / 3);
-        this.parts.set(20, maxvy / 2);
-        this.parts.set(40, maxvy / 1);
-        this.parts.set(50, maxvy / 1);
-        this.parts.set(60, maxvy / 2);
-        this.parts.set(80, maxvy / 3);
+        this.startPx      = this.x;
+        this.startPy      = this.y;
+        this.goals  = 0;
+        this.parts  = new Map()
+        this.parts.set(0,  c.bMaxVy / 3);
+        this.parts.set(20, c.bMaxVy / 2);
+        this.parts.set(40, c.bMaxVy / 1);
+        this.parts.set(50, -c.bMaxVy / 1);
+        this.parts.set(60, -c.bMaxVy / 2);
+        this.parts.set(80, -c.bMaxVy / 3);
     };
 
     moveUp(dist){
         this.y -= dist;
-        if (this.y < this.lowestPosition)
-            this.y = this.lowestPosition;
+        if (this.y < this.c.pMinPos)
+            this.y = this.c.pMinPos;
     };
 
     moveDown(dist){
         this.y += dist;
-        if (this.y > this.higthestPosition)
-            this.y = this.higthestPosition;
+        if (this.y > this.c.pMaxPos)
+            this.y = this.c.pMaxPos;
     }
     
     display() {
@@ -47,12 +46,8 @@ export class Player
     }
 
     reset() {
-        this.x      = this.startP.x;
-        this.y      = this.startP.y;
-    }
-
-    markGoal() {
-        this.goals++;
+        this.x      = this.startPx;
+        this.y      = this.startPy;
     }
 
     getPlayerAffectOnBall(ball)

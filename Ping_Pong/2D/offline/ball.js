@@ -1,45 +1,31 @@
 export class Ball
 {
-    constructor(htmlEle, x, y, vx, vy, vxMax, vyMax, P1x, P2x, WallLx, WallRx, boardH)
+    constructor(htmlEle, c)
     {
-        this.dom = htmlEle;
-        
-        this.startX = x;
-        this.startY = y;
-
-        this.x  = this.startX;
-        this.y  = this.startY;
-        this.vx = vx;
-        this.vy = vy;
-
-        this.vxMax = vxMax;
-        this.vyMax = vyMax;
-        this.speed = parseInt(Math.sqrt(Math.pow(vxMax, 2), Math.pow(vyMax, 2)));
-
-        this.p1x    = P1x;
-        this.p2x    = P2x;
-        this.wall1  = WallLx;
-        this.wall2  = WallRx;
-        this.boardH = boardH;
+        this.dom    = htmlEle;
+        this.x      = c.ballStartingPositionX;
+        this.y      = c.ballStartingPositionY;
+        this.vx     = c.ballStartVx;
+        this.vy     = c.ballStartVy;
+        this.c      = c;
     };
 
     reset(dir)
     {
-        this.x = this.startX;
-        this.y = this.startY;
+        this.x = this.c.ballStartingPositionX;
+        this.y = this.c.ballStartingPositionY;
 
-        this.vy = 0;
-        this.vx = dir * 10;
+        this.vy = this.c.ballStartVy;
+        this.vx = dir * this.c.ballStartVx;
     };
 
     nextReboundPointX() {
-        let maxXvalBeforeYlimit = ( () => {
-            let ydist = (this.vy > 0) ? this.boardH - this.y : this.y;
-            return (this.vx *  Math.abs(ydist / this.vy));
-        }) ();
-        if (Math.abs(maxXvalBeforeYlimit) == Infinity)
-            maxXvalBeforeYlimit = -100;
-        var allPosibleImpactPoints = [maxXvalBeforeYlimit, this.wall1, this.p1x ,this.p2x, this.wall2];
+        var allPosibleImpactPoints = [
+            this.c.bMinX,
+            this.c.p1StartingPositionX,
+            this.c.p2StartingPositionX,
+            this.c.bMaxX
+        ];
         var ft_filter = (this.vx >= 0) ?
                         (ele, val) => ele > val :
                         (ele, val) => ele < val;
@@ -60,7 +46,7 @@ export class Ball
     }
 
     ballOnRoof(){
-        return this.y == 0 || this.y == boardH;
+        return this.y == 0 || this.y == this.c.floor;
     }
 
     setDirection(newDir) {
@@ -70,8 +56,8 @@ export class Ball
         var sx = (this.vx < 0) ? -1 : 1;
         var sy = (this.vy < 0) ? -1 : 1;
 
-        this.vx = (Math.abs(this.vx) > this.vxMax) ? (sx * this.vxMax) : this.vx;     
-        this.vy = (Math.abs(this.vy) > this.vyMax) ? (sy * this.vyMax) : this.vy;
+        this.vx = (Math.abs(this.vx) > this.c.bMaxVx) ? (sx * this.c.bMaxVx) : this.vx;     
+        this.vy = (Math.abs(this.vy) > this.c.bMaxVy) ? (sy * this.c.bMaxVy) : this.vy;
     }
 
     display()
@@ -85,11 +71,13 @@ export class Ball
         this.x += this.vx;
         this.y += this.vy;
         //prevent ball from crosing x
-        this.x = (this.x > this.wall2) ? this.wall2 : this.x;
-        this.x = (this.x < this.wall1) ? this.wall1 : this.x;
+        this.x = (this.x > this.c.bMaxX) ? this.c.bMaxX : this.x;
+        this.x = (this.x < this.c.bMinX) ? this.c.bMinX : this.x;
         //prevent ball from crosing y
-        this.y = (this.y > this.boardH) ? this.boardH : this.y;
-        this.y = (this.y < 0) ? 0 : this.y;
+        this.y = (this.y > this.c.bMaxY) ? this.c.bMaxY : this.y;
+        this.y = (this.y < this.c.bMinY) ? this.c.bMinY : this.y;
+        //get the proper value for ball display
+        // limitX = (this.vx > 0) ? (limitX - this.c.ballSize) : limitX;
 
         if (this.vx > 0 && this.x >limitX)
             this.x = limitX;

@@ -16,6 +16,22 @@
     z-index: 1;
 }
 
+#scoeHolder
+{
+    width: 700px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+#wh1
+{
+    margin-left: 50px;
+}
+#wh2
+{
+    margin-right: 50px;
+}
+
 #counterHoler
 {
     width: 100%;
