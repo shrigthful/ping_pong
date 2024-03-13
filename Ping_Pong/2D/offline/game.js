@@ -106,11 +106,11 @@ export class Game
     {
         if (this.p1.hitsBall(this.ball.x, this.ball.y + this.c.ballSize)){
             this.ball.setDirection(this.p1.getPlayerAffectOnBall(this.ball));
-            this.ball.vy *= -1;
+            // this.ball.vy *= -1;
         }
         else if (this.p2.hitsBall(this.ball.x, this.ball.y + this.c.ballSize)){
             this.ball.setDirection(this.p2.getPlayerAffectOnBall(this.ball));
-            this.ball.vy *= -1;
+            // this.ball.vy *= -1;
         }
         else if (this.ball.x == this.c.bMinX)   {return 2; }
         else if (this.ball.x == this.c.bMaxX)   {return 1; }

@@ -8,6 +8,7 @@ export class Ball
         this.vx     = c.ballStartVx;
         this.vy     = c.ballStartVy;
         this.c      = c;
+        this.maxSpeed = Math.sqrt(Math.pow(c.bMaxVx, 2) + Math.pow(c.bMaxVy, 2));
     };
 
     reset(dir)
@@ -46,7 +47,7 @@ export class Ball
     }
 
     ballOnRoof(){
-        return this.y == 0 || this.y == this.c.floor;
+        return this.y == 0 || this.y == this.c.bMaxY;
     }
 
     setDirection(newDir) {
@@ -58,6 +59,7 @@ export class Ball
 
         this.vx = (Math.abs(this.vx) > this.c.bMaxVx) ? (sx * this.c.bMaxVx) : this.vx;     
         this.vy = (Math.abs(this.vy) > this.c.bMaxVy) ? (sy * this.c.bMaxVy) : this.vy;
+        this.addjustSpeed();
     }
 
     display()
@@ -84,5 +86,12 @@ export class Ball
         if (this.vx < 0 && this.x < limitX)
             this.x = limitX;
         this.display();
+    }
+
+    addjustSpeed(){
+        const currentSpeed = Math.sqrt(Math.pow(this.vx, 2) + Math.pow(this.vy, 2));
+        var scale = parseInt(this.maxSpeed / currentSpeed);
+        this.vx *= scale;
+        this.vy *= scale;
     }
 };

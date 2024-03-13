@@ -4,6 +4,8 @@ var p1      = document.getElementById('playerLeft');
 var p2      = document.getElementById('playerRigth');
 
 export var gameContants = {
+    'defX'                  : 700,
+    'defY'                  : 500,
     //player conf
     'p1StartingPositionX'   :  parseInt(getComputedStyle(p1).getPropertyValue('margin-left')),
     'p1StartingPositionY'   :  parseInt((board.clientHeight / 2) - (p1.clientHeight / 2)),
@@ -74,4 +76,9 @@ export var keys    = {
         if (event.key === 'L' || event.key === 'l')
             keys.l = true;
     }
+}
+
+function PercentToPx()
+{
+    
 }

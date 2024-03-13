@@ -2,7 +2,7 @@
 {
     position: relative;
     width: 700px;
-    height: 350px;
+    height: 500px;
 }
 #ball
 {
@@ -71,7 +71,7 @@
 
 .player{
     width : 5px;
-    height: 18%;
+    height: 10%;
 }
 
 #playerLeft{

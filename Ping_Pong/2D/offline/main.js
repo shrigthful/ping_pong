@@ -9,6 +9,9 @@ var counter = document.getElementById('counter');
 var wh1     = document.getElementById('wh1');
 var wh2     = document.getElementById('wh2');
 
+document.addEventListener('resize' ,() =>{
+    
+})
 console.log(gameContants);
 var pingPong = new Game(board, ball, counter ,p1, p2,wh1, wh2, keys, gameContants);
 pingPong.startRound(1);
