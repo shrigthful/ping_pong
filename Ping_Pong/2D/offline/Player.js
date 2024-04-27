@@ -38,6 +38,10 @@ export class Player
         this.dom.style.marginTop = this.y + 'px';
     }
 
+    ToDisplay(){
+        return this.y
+    }
+
     hitsBall(x, y) {
         if (this.x != x)
             return false;

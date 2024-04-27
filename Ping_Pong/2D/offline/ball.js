@@ -68,6 +68,10 @@ export class Ball
         this.dom.style.top  = this.y.toString() + 'px';
     }
 
+    toDisplay(){
+        return {'x' : this.x, 'y' : this.y}
+    }
+
     move(limitX)
     {
         this.x += this.vx;

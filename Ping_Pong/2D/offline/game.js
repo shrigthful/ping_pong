@@ -1,5 +1,6 @@
 import { Player } from './player.js';
 import { Ball }   from './ball.js';
+import { DiplayManager } from './displayer.js';
 
 export class Game
 {
@@ -29,7 +30,20 @@ export class Game
         this.MovmentInterval    = undefined;
         this.balldest           = undefined;
         this.ballRebound        = false;
+        
+        this.printer = new DiplayManager(consts);
     };
+
+    displayPlayer1(){
+        this.printer.displayPlayer(this.p1.ToDisplay(), this.p1.dom);
+    }
+    displayPlayer2(){
+        this.printer.displayPlayer(this.p2.ToDisplay(), this.p2.dom);
+    }
+    displayBall(){
+        var cord = this.ball.toDisplay()
+        this.printer.displayBall(cord.x, cord.y, this.ball.dom);
+    }
 
     playerMove()
     {
@@ -43,18 +57,20 @@ export class Game
         else if(this.keys.l === true)
             this.p2.moveDown(this.c.playeSpeed);
 
-        this.p1.display();
-        this.p2.display();
+        // this.p1.display();
+        // this.p2.display();
+        this.displayPlayer1();
+        this.displayPlayer2();
     };
 
     reset(signe)
     {
         this.p1.reset();
-        this.p1.display();
+        this.displayPlayer1;
         this.p2.reset();
-        this.p2.display();
+        this.displayPlayer2();
         this.ball.reset(signe);
-        this.ball.display();
+        this.displayBall();
     }
 
     async startRound(signe)
@@ -93,7 +109,7 @@ export class Game
     moveBall()
     {
         this.ball.move(this.balldest);
-        this.ball.display();
+        this.displayBall()
         if (this.ball.x == this.balldest || this.ball.ballOnRoof())
         {
             this.ballRebound = true;
